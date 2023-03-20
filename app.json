@@ -25,6 +25,18 @@
 				"en": "Choose action:",
 				"ru": "Выбери действие:",
 				"uz": "Harakat tanla:"
+			},
+			"chat": {
+				"emoji": "🤖",
+				"en": "I'm glad you would like to chat with me! Start typing your question and I will be able to assist you.\n\n<b>Please note, that the bot is still in beta, so you can make only a few requests per hour.</b>",
+				"ru": "Я рад, что вы хотите пообщаться со мной! Начните вводить свой вопрос, и я смогу вам помочь.\n\n<b>Обратите внимание, что бот все еще находится в стадии бета-тестирования, поэтому вы можете отправлять только несколько запросов в час.</b>",
+				"uz": "Men bilan suhbatlashishni hohlaganingizdan xursandman! Savolingizni yozishni boshlang, men sizga yordam bera olaman.\n\n<b>Esda tutingki, bot hali beta-versiyada, shuning uchun soatiga bir nechta soʻrov yuborishingiz mumkin.</b>"
+			},
+			"error": {
+				"emoji": "🙊",
+				"en": "Oops, somthing went wrong. Please, try again later.",
+				"ru": "Упс! Что-то пошло не так. Пожалуйста, повторите попытку позже.",
+				"uz": "Voy! Nimadir noto'g'ri bajarildi. Iltimos keyinroq qayta urinib ko'ring."
 			}
 		},
 		"buttons": {
@@ -34,44 +46,64 @@
 				"uz": "🇺🇿 O'zbek"
 			},
 			"ok": {
+				"emoji": "👌",
 				"en": "Okay",
 				"ru": "Окей",
 				"uz": "Hop"
 			},
 			"start_chat": {
+				"emoji": "💬",
 				"en": "Start chat",
 				"ru": "Начать чат",
 				"uz": "So'raver"
 			},
 			"essay_help": {
+				"emoji": "📃",
 				"en": "Essay help",
-				"ru": "",
-				"uz": ""
+				"ru": "Сочинения",
+				"uz": "Insholar"
 			},
-			"coding_help": {
-				"en": "Coding help",
-				"ru": "",
-				"uz": ""
+			"code_help": {
+				"emoji": "💻",
+				"en": "Code help",
+				"ru": "Программирование",
+				"uz": "Dasturlash"
 			},
 			"my_account": {
+				"emoji": "👤",
 				"en": "My account",
-				"ru": "",
-				"uz": ""
+				"ru": "Мой аккаунт",
+				"uz": "Mening akkauntim"
 			},
 			"billing": {
+				"emoji": "💳",
 				"en": "Billing",
-				"ru": "",
-				"uz": ""
+				"ru": "Платежи",
+				"uz": "To'lovlar"
+			},
+			"support": {
+				"emoji": "❔",
+				"en": "Support",
+				"ru": "Поддержка",
+				"uz": "Yordam"
 			},
 			"back": {
+				"emoji": "⏪",
 				"en": "Back",
 				"ru": "Назад",
 				"uz": "Ortga"
 			},
 			"cancel": {
+				"emoji": "🗑️",
 				"en": "Cancel",
 				"ru": "Отменить",
 				"uz": "Bekor qil"
+			},
+			"my_referrals": {
+				"emoji": "🔗",
+				"en": "My referrals",
+				"ru": "Мои рефералы",
+				"uz": "Mening do'stlarim"
 			}
 		}
 	}

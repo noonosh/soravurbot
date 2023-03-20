@@ -27,4 +27,9 @@ def button(key: str, language: str):
         [str]: [Text from text.json]
     """
     button = j["buttons"][key]
-    return button[language]
+    try:
+        header = button['emoji'] + " "
+    except KeyError:
+        header = ""
+        
+    return header + button[language]

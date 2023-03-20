@@ -2,7 +2,7 @@ import os
 import dotenv
 import logging
 from telegram.ext import Application, CommandHandler, ConversationHandler, CallbackQueryHandler, MessageHandler, filters
-from src.components import start, chat, home
+from src.components import start, chat, home, commands
 from src.db.base import engine, Base
 from utils.filter import FilterButton
 import openai
@@ -44,10 +44,16 @@ def main():
                 MessageHandler(filters.TEXT, chat.complete)
             ],
             "HOME": [
-                MessageHandler(FilterButton('start_chat'), chat.initialize)
+                MessageHandler(FilterButton('start_chat'), chat.initialize),
+                MessageHandler(FilterButton('essay_help'), home.coming_soon),
+                MessageHandler(FilterButton('code_help'), home.coming_soon),
+                MessageHandler(FilterButton('my_account'), home.coming_soon),
+                MessageHandler(FilterButton('support'), home.coming_soon)
             ]
         },
         fallbacks=[
+            CommandHandler('start', start.start),
+            CommandHandler('help', commands.help)
         ]
     )
 

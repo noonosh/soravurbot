@@ -12,13 +12,17 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     user = update.effective_user
     
+    if session.get(User, chat_id):
+        return await home_display(update, context)
+    
+    
     session.add(
-        User(
-            user_id=chat_id,
-            first_name=user.first_name,
-            last_name=user.last_name
-        )    
-    )
+            User(
+                user_id=chat_id,
+                first_name=user.first_name,
+                last_name=user.last_name
+            )    
+        )
     session.commit()
     session.close()
 
@@ -51,8 +55,6 @@ async def save_language(update: Update, context: ContextTypes.DEFAULT_TYPE):
     )
     
     session.commit()
-    
-    await update.effective_message.reply_text("Language saved")
     
     return await home_display(update, context)    
     

@@ -10,5 +10,5 @@ class FilterButton(MessageFilter):
         langs = j["buttons"][self.key]
         buttons = []
         for i in langs:
-            buttons.append(langs[i])
+            buttons.append(langs['emoji'] + " " + langs[i])
         return message.text in buttons
