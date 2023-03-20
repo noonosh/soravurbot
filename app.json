@@ -1,17 +1,78 @@
 {
 	"meta": {
 		"version": "1.0.0",
-		"description": "",
-		"url": "",
+		"description": "This is AI bot that supports various chats on different topics and fields",
+		"url": "https://t.me/soravurbot",
 		"author": "Nuriddin Islamov",
-		"date_of_release": "1 January 1970"
+		"date_of_release": "21 March 2023"
 	},
 	"app_data": {
 		"texts": {
-			"start": "😃 Hooray! You have successfully set up your bot!\n\nStart editing <code>main.py</code> file"
+			"": {
+				"emoji": "",
+				"en": "",
+				"ru": "",
+				"uz": ""
+			},
+			"start": {
+				"default": "Hi, I am AI chatbot assistant to help you with your questions on different topics."
+			},
+			"choose_language": {
+				"default": "Choose language | Выбери язык | Til tanlang"
+			},
+			"home": {
+				"emoji": "🏡",
+				"en": "Choose action:",
+				"ru": "Выбери действие:",
+				"uz": "Harakat tanla:"
+			}
 		},
 		"buttons": {
-			"ok": "OK!"
+			"language": {
+				"en": "🇬🇧 English",
+				"ru": "🇷🇺 Russian",
+				"uz": "🇺🇿 O'zbek"
+			},
+			"ok": {
+				"en": "Okay",
+				"ru": "Окей",
+				"uz": "Hop"
+			},
+			"start_chat": {
+				"en": "Start chat",
+				"ru": "Начать чат",
+				"uz": "So'raver"
+			},
+			"essay_help": {
+				"en": "Essay help",
+				"ru": "",
+				"uz": ""
+			},
+			"coding_help": {
+				"en": "Coding help",
+				"ru": "",
+				"uz": ""
+			},
+			"my_account": {
+				"en": "My account",
+				"ru": "",
+				"uz": ""
+			},
+			"billing": {
+				"en": "Billing",
+				"ru": "",
+				"uz": ""
+			},
+			"back": {
+				"en": "Back",
+				"ru": "Назад",
+				"uz": "Ortga"
+			},
+			"cancel": {
+				"en": "Cancel",
+				"ru": "Отменить",
+				"uz": "Bekor qil"
+			}
 		}
 	}
 }
