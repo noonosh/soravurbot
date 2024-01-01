@@ -230,8 +230,7 @@ class ChatGPTTelegramBot:
         self.openai.reset_chat_history(chat_id=chat_id, content=reset_content)
         await update.effective_message.reply_text(
             message_thread_id=get_thread_id(update),
-            text=localized_text('reset_done', self.config['bot_language']),
-            reply_markup=ReplyKeyboardMarkupRemove()
+            text=localized_text('reset_done', self.config['bot_language'])
         )
 
     async def image(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
