@@ -72,9 +72,7 @@ class ChatGPTTelegramBot:
                 '\n\n' +
                 '\n'.join(commands_description) +
                 '\n\n' +
-                localized_text('help_text', bot_language)[1] +
-                '\n\n' +
-                localized_text('help_text', bot_language)[2]
+                localized_text('help_text', bot_language)[1]
         )
         await update.message.reply_text(help_text, disable_web_page_preview=True)
 
@@ -112,7 +110,7 @@ class ChatGPTTelegramBot:
             f"*{localized_text('stats_conversation', bot_language)[0]}*:\n"
             f"{chat_messages} {localized_text('stats_conversation', bot_language)[1]}\n"
             f"{chat_token_length} {localized_text('stats_conversation', bot_language)[2]}\n"
-            f"----------------------------\n"
+            f"----------------------------\n\n"
         )
         
         # Check if image generation is enabled and, if so, generate the image statistics for today
@@ -136,8 +134,8 @@ class ChatGPTTelegramBot:
             f"{text_today_tts}"
             f"{transcribe_minutes_today} {localized_text('stats_transcribe', bot_language)[0]} "
             f"{transcribe_seconds_today} {localized_text('stats_transcribe', bot_language)[1]}\n"
-            f"{localized_text('stats_total', bot_language)}{current_cost['cost_today']:.2f}\n"
-            f"----------------------------\n"
+            f"{localized_text('stats_total', bot_language)}*{current_cost['cost_today']:.2f}*\n"
+            f"----------------------------\n\n"
         )
         
         text_month_images = ""
@@ -161,7 +159,7 @@ class ChatGPTTelegramBot:
             f"{text_month_tts}"
             f"{transcribe_minutes_month} {localized_text('stats_transcribe', bot_language)[0]} "
             f"{transcribe_seconds_month} {localized_text('stats_transcribe', bot_language)[1]}\n"
-            f"{localized_text('stats_total', bot_language)}{current_cost['cost_month']:.2f}"
+            f"{localized_text('stats_total', bot_language)}*{current_cost['cost_month']:.2f}*"
         )
 
         # text_budget filled with conditional content
@@ -171,7 +169,7 @@ class ChatGPTTelegramBot:
             text_budget += (
                 f"{localized_text('stats_budget', bot_language)}"
                 f"{localized_text(budget_period, bot_language)}: "
-                f"${remaining_budget:.2f}.\n"
+                f"SO'M {remaining_budget:,.2f}\n"
             )
         # No longer works as of July 21st 2023, as OpenAI has removed the billing API
         # add OpenAI account information for admin request
