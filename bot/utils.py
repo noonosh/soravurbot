@@ -7,64 +7,11 @@ import logging
 import os
 import base64
 
-from typing import List, Union
-
 import telegram
-from telegram import Message, MessageEntity, Update, ChatMember, constants, \
-    InlineKeyboardButton, InlineKeyboardMarkup
+from telegram import Message, MessageEntity, Update, ChatMember, constants
 from telegram.ext import CallbackContext, ContextTypes
 
-translations_file_path = os.path.join(os.path.dirname(__file__), 'locale.json')
-with open(translations_file_path, 'r', encoding='utf-8') as f:
-    translations = json.load(f)
-
-
-async def error_handler(_: object, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """
-    Handles errors in the telegram-python-bot library.
-    """
-    logging.error(f'Exception while handling an update: {context.error}')
-    
-    
-def generate_available_locale_buttons() -> List[InlineKeyboardButton]:
-    all_loc = translations['available_locale']
-    
-    buttons = [
-        [
-            InlineKeyboardButton(
-                f'{all_loc[i]["flag"]} {all_loc[i]["name"]}',
-                callback_data=all_loc[i]['short']) for i in all_loc.keys()
-        ]
-    ]
-    
-    return InlineKeyboardMarkup(buttons)
-
-
-def localized_text(key, bot_language):
-    """
-    Return translated text for a key in specified bot_language.
-    Keys and translations can be found in the locale.json.
-    """
-
-    try:
-        return translations[bot_language][key]
-    except KeyError:
-        logging.warning(f"No translation available for bot_language code '{bot_language}' and key '{key}'")
-        # Fallback to English if the translation is not available
-        if key in translations['en']:
-            return translations['en'][key]
-        else:
-            logging.warning(f"No english definition found for key '{key}' in locale.json")
-            # return key as text
-            return key
-
-
-def lang(uid):
-    """
-    Return the language code of the given user id
-    """
-    pass
-
+from usage_tracker import UsageTracker
 
 
 def message_text(message: Message) -> str:
@@ -153,8 +100,8 @@ async def wrap_with_indicator(update: Update, context: CallbackContext, coroutin
             await asyncio.wait_for(asyncio.shield(task), 4.5)
         except asyncio.TimeoutError:
             pass
-        
-        
+
+
 async def edit_message_with_retry(context: ContextTypes.DEFAULT_TYPE, chat_id: int | None,
                                   message_id: str, text: str, markdown: bool = True, is_inline: bool = False):
     """
@@ -192,6 +139,13 @@ async def edit_message_with_retry(context: ContextTypes.DEFAULT_TYPE, chat_id: i
     except Exception as e:
         logging.warning(str(e))
         raise e
+
+
+async def error_handler(_: object, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """
+    Handles errors in the telegram-python-bot library.
+    """
+    logging.error(f'Exception while handling an update: {context.error}')
 
 
 async def is_allowed(config, update: Update, context: CallbackContext, is_inline=False) -> bool:
@@ -270,6 +224,59 @@ def get_user_budget(config, user_id) -> float | None:
             return 0.0
         return float(user_budgets[user_index])
     return None
+
+
+def get_remaining_budget(config, usage, update: Update, is_inline=False) -> float:
+    """
+    Calculate the remaining budget for a user based on their current usage.
+    :param config: The bot configuration object
+    :param usage: The usage tracker object
+    :param update: Telegram update object
+    :param is_inline: Boolean flag for inline queries
+    :return: The remaining budget for the user as a float
+    """
+    # Mapping of budget period to cost period
+    budget_cost_map = {
+        "monthly": "cost_month",
+        "daily": "cost_today",
+        "all-time": "cost_all_time"
+    }
+
+    user_id = update.inline_query.from_user.id if is_inline else update.message.from_user.id
+    name = update.inline_query.from_user.name if is_inline else update.message.from_user.name
+    if user_id not in usage:
+        usage[user_id] = UsageTracker(user_id, name)
+
+    # Get budget for users
+    user_budget = get_user_budget(config, user_id)
+    budget_period = config['budget_period']
+    if user_budget is not None:
+        cost = usage[user_id].get_current_cost()[budget_cost_map[budget_period]]
+        return user_budget - cost
+
+    # Get budget for guests
+    if 'guests' not in usage:
+        usage['guests'] = UsageTracker('guests', 'all guest users in group chats')
+    cost = usage['guests'].get_current_cost()[budget_cost_map[budget_period]]
+    return config['guest_budget'] - cost
+
+
+def is_within_budget(config, usage, update: Update, is_inline=False) -> bool:
+    """
+    Checks if the user reached their usage limit.
+    Initializes UsageTracker for user and guest when needed.
+    :param config: The bot configuration object
+    :param usage: The usage tracker object
+    :param update: Telegram update object
+    :param is_inline: Boolean flag for inline queries
+    :return: Boolean indicating if the user has a positive budget
+    """
+    user_id = update.inline_query.from_user.id if is_inline else update.message.from_user.id
+    name = update.inline_query.from_user.name if is_inline else update.message.from_user.name
+    if user_id not in usage:
+        usage[user_id] = UsageTracker(user_id, name)
+    remaining_budget = get_remaining_budget(config, usage, update, is_inline=is_inline)
+    return remaining_budget > 0
 
 
 def add_chat_request_to_usage_tracker(usage, config, user_id, used_tokens):
@@ -371,3 +378,13 @@ def cleanup_intermediate_files(response: any):
     if format == 'path':
         if os.path.exists(value):
             os.remove(value)
+
+
+# Function to encode the image
+def encode_image(fileobj):
+    image = base64.b64encode(fileobj.getvalue()).decode('utf-8')
+    return f'data:image/jpeg;base64,{image}'
+
+def decode_image(imgbase64):
+    image = imgbase64[len('data:image/jpeg;base64,'):]
+    return base64.b64decode(image)
