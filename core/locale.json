@@ -1,8 +1,35 @@
 {
-	"available_translations": ["en_US, ru_RU, uz_Latn_UZ"],
-	"en_US": {
-		"help_menu": ""
+	"available_locale": {
+		"en_US": {
+			"flag": "🇺🇸",
+			"name": "English",
+			"short": "en",
+			"prompt": "Choose a language"
+		},
+		"ru_RU": {
+			"flag": "🇷🇺",
+			"name": "Русский",
+			"short": "ru",
+			"prompt": "Выберите язык"
+		},
+		"uz_Latn_UZ": {
+			"flag": "🇺🇿",
+			"name": "O'zbekcha",
+			"short": "uz",
+			"prompt": "Til tanlang"
+		}
 	},
-	"ru_RU": {},
-	"uz_Latn_UZ": {}
+	"en": {
+		"general_description": "I am ChatGPT in Telegram – talk to me!",
+		"help_menu": "Send me a request and I will try to answer it! Anything!",
+		"fair_usage_warning": "",
+		"blocked_user": "",
+		"chat_fail": "Unable to process request . Please try again later..."
+	},
+	"ru": {
+		"general_description": "Я ChatGPT в Telegram – Поговори со мной!"
+	},
+	"uz": {
+		"general_description": "Men ChatGPT. Men bilan gaplash"
+	}
 }

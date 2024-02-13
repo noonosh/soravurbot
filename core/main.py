@@ -6,6 +6,7 @@ import asyncio
 
 from core.modules.telegram_bot import TelegramBot
 from core.modules.openai_helper import OpenAIHelper
+from core.db.db import Database
 
 
 def main():
@@ -39,11 +40,15 @@ def main():
         'token': os.environ['TELEGRAM_BOT_TOKEN'],
         'admin_user_ids': os.environ.get('ADMIN_USER_IDS', '-'),
         'bot_language': os.environ.get('BOT_LANGUAGE', 'en'),
+    }
+    
+    db_config = {
         'db_name': os.environ.get('DB_NAME'),
         'db_username': os.environ.get('DB_USERNAME'),
         'db_password': os.environ.get('DB_PASSWORD')
     }
     
     openai_helper = OpenAIHelper(config=openai_config)
-    telegram_bot = TelegramBot(config=telegram_config, openai=openai_helper)
+    database = Database(config=db_config)
+    telegram_bot = TelegramBot(config=telegram_config, openai=openai_helper, db=database)
     telegram_bot.run()
